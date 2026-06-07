@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="TopBar" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 1.0
+offset_bottom = 60.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="TeamAName" type="Label" parent="."]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 20
+text = "Team A"
+
+[node name="TeamBName" type="Label" parent="."]
+layout_mode = 1
+offset_left = 980.0
+offset_top = 10.0
+offset_right = 1260.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 20
+text = "Team B"
+horizontal_alignment = 2
+
+[node name="ScoreRow" type="HBoxContainer" parent="."]
+layout_mode = 1
+offset_left = 540.0
+offset_top = 8.0
+offset_right = 740.0
+offset_bottom = 52.0
+alignment = 1
+
+[node name="ScoreA" type="Label" parent="ScoreRow"]
+theme_override_font_sizes/font_size = 32
+text = "0"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Sep" type="Label" parent="ScoreRow"]
+theme_override_font_sizes/font_size = 26
+text = " - "
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+
+[node name="ScoreB" type="Label" parent="ScoreRow"]
+theme_override_font_sizes/font_size = 32
+text = "0"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="TimerLabel" type="Label" parent="."]
+layout_mode = 1
+offset_left = 600.0
+offset_top = 60.0
+offset_right = 680.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 18
+text = "1:30"
+horizontal_alignment = 1
+
+[node name="SuddenDeathLabel" type="Label" parent="."]
+layout_mode = 1
+offset_left = 440.0
+offset_top = 60.0
+offset_right = 840.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+text = "SUDDEN DEATH"
+horizontal_alignment = 1
+visible = false
