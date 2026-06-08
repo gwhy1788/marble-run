@@ -1,7 +1,8 @@
 extends Node
 
-const Countries      := preload("res://scripts/countries.gd")
-const GameFieldScene := preload("res://scenes/GameField.tscn")
+const Countries       := preload("res://scripts/countries.gd")
+const GameFieldScene  := preload("res://scenes/GameField.tscn")
+const KnockoutSplash  := preload("res://scripts/ui/knockout_splash.gd")
 
 @onready var _game_container: Node2D  = $GameContainer
 @onready var _menu_panel:     Control  = $UI/MenuPanel
@@ -30,6 +31,7 @@ var _current_idx: int = 0
 var _game_field = null
 var _group_result_panel: Control
 var _group_result_box:   VBoxContainer
+var _knockout_splash: Control
 
 func _ready() -> void:
 	_start_btn.pressed.connect(_on_start_pressed)
@@ -37,8 +39,15 @@ func _ready() -> void:
 	_bracket_panel.start_match_requested.connect(_on_bracket_start)
 	_result_panel.continue_pressed.connect(_on_result_continue)
 	_build_group_result_panel()
+	_build_knockout_splash()
 	_style_static_labels()
 	_show_menu()
+
+func _build_knockout_splash() -> void:
+	_knockout_splash = KnockoutSplash.new()
+	_knockout_splash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_knockout_splash.hide()
+	$UI.add_child(_knockout_splash)
 
 func _style_static_labels() -> void:
 	_apply_ls($UI/MenuPanel/Title,          52, Color(1.0, 0.85, 0.1, 1.0), 5)
@@ -199,8 +208,20 @@ func _auto_advance_match() -> void:
 		var last: Dictionary  = _matches.back()
 		var champ: Dictionary = last.get("winner", {})
 		_show_champion(champ)
+	elif _current_idx == R16_IDX or _current_idx == QF_IDX or \
+		 _current_idx == SF_IDX  or _current_idx == FIN_IDX:
+		_show_knockout_splash()
 	else:
 		_show_match()
+
+func _show_knockout_splash() -> void:
+	_hide_all()
+	_knockout_splash.setup(_matches)
+	_knockout_splash.show()
+	get_tree().create_timer(5.0).timeout.connect(func() -> void:
+		_knockout_splash.hide()
+		_show_match()
+	)
 
 func _is_group_end() -> bool:
 	return _current_idx < TOTAL_GROUP_MATCHES and \
@@ -459,3 +480,5 @@ func _hide_all() -> void:
 	_champion_panel.hide()
 	if _group_result_panel:
 		_group_result_panel.hide()
+	if _knockout_splash:
+		_knockout_splash.hide()
