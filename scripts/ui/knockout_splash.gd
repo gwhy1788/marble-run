@@ -46,15 +46,12 @@ func _draw_connectors() -> void:
 	var col := Color(0.42, 0.42, 0.54, 0.65)
 	var lw  := 1.5
 
-	var r_cx := CX[0] + BOX_W          # right edge of left-R16 column
-	var lq_cx := CX[1]                 # left edge of left-QF column
-
 	# Left: R16 pair1 → QF[56]
 	_bracket_join(Y_R16[0]+BOX_H*0.5, Y_R16[1]+BOX_H*0.5, Y_QF[0]+BOX_H*0.5,
-				  r_cx, lq_cx, col, lw)
+				  CX[0]+BOX_W, CX[1], col, lw)
 	# Left: R16 pair2 → QF[57]
 	_bracket_join(Y_R16[2]+BOX_H*0.5, Y_R16[3]+BOX_H*0.5, Y_QF[1]+BOX_H*0.5,
-				  r_cx, lq_cx, col, lw)
+				  CX[0]+BOX_W, CX[1], col, lw)
 	# Left: QF[56]+QF[57] → SF[60]
 	_bracket_join(Y_QF[0]+BOX_H*0.5, Y_QF[1]+BOX_H*0.5, Y_SF+BOX_H*0.5,
 				  CX[1]+BOX_W, CX[2], col, lw)
@@ -119,10 +116,12 @@ func _match_box(x: float, y: float, m: Dictionary) -> void:
 
 	draw_rect(Rect2(x, y, BOX_W, BOX_H), Color(0.07, 0.09, 0.13, 0.96))
 
-	var rh := BOX_H * 0.5
-	_team_row(x, y,      rh, ta, win_name != "" and win_name == ta.get("name", "\x00"))
+	var rh     := BOX_H * 0.5
+	var a_wins := win_name != "" and win_name == ta.get("name", "")
+	var b_wins := win_name != "" and win_name == tb.get("name", "")
+	_team_row(x, y,    rh, ta, a_wins)
 	draw_line(Vector2(x, y+rh), Vector2(x+BOX_W, y+rh), Color(0.28, 0.28, 0.38, 1.0), 1.0)
-	_team_row(x, y+rh,   rh, tb, win_name != "" and win_name == tb.get("name", "\x01"))
+	_team_row(x, y+rh, rh, tb, b_wins)
 
 	draw_rect(Rect2(x, y, BOX_W, BOX_H), Color(0.32, 0.32, 0.46, 0.85), false, 1.0)
 
