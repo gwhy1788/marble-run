@@ -117,8 +117,8 @@ func _match_box(x: float, y: float, m: Dictionary) -> void:
 	draw_rect(Rect2(x, y, BOX_W, BOX_H), Color(0.07, 0.09, 0.13, 0.96))
 
 	var rh:     float = BOX_H * 0.5
-	var a_wins: bool  = win_name != "" and win_name == ta.get("name", "") as String
-	var b_wins: bool  = win_name != "" and win_name == tb.get("name", "") as String
+	var a_wins: bool  = win_name != "" and win_name == (ta.get("name", "") as String)
+	var b_wins: bool  = win_name != "" and win_name == (tb.get("name", "") as String)
 	_team_row(x, y,    rh, ta, a_wins)
 	draw_line(Vector2(x, y+rh), Vector2(x+BOX_W, y+rh), Color(0.28, 0.28, 0.38, 1.0), 1.0)
 	_team_row(x, y+rh, rh, tb, b_wins)
